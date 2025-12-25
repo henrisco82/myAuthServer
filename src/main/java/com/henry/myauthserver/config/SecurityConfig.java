@@ -1,6 +1,5 @@
 package com.henry.myauthserver.config;
 
-
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -49,17 +48,18 @@ public class SecurityConfig {
                 OAuth2AuthorizationServerConfigurer.authorizationServer();
 
         http
-            .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
-            .with(authorizationServerConfigurer, authServer ->
-                    authServer.oidc(Customizer.withDefaults())
-            )
-            .authorizeHttpRequests(authorize ->
-                    authorize.anyRequest().authenticated()
-            )
-            .exceptionHandling(exceptions ->
-                    exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
-            )
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
+                .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
+                .with(authorizationServerConfigurer, authServer ->
+                        authServer.oidc(Customizer.withDefaults())
+                )
+                .authorizeHttpRequests(authorize ->
+                        authorize.anyRequest().authenticated()
+                )
+                .exceptionHandling(exceptions ->
+                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+                )
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .cors(Customizer.withDefaults());
 
         return http.build();
     }
@@ -70,7 +70,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth ->
                         auth.anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults());
+                .formLogin(Customizer.withDefaults())
+                .cors(Customizer.withDefaults());
 
         return http.build();
     }
@@ -79,13 +80,10 @@ public class SecurityConfig {
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("client")
-                .clientSecret(passwordEncoder().encode("secret"))
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .redirectUri("http://localhost:8080/login/oauth2/code/client")
-                .redirectUri("http://localhost:8080/authorized")
+                .redirectUri("http://localhost:5173/authorized")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .scope("read")
@@ -96,6 +94,7 @@ public class SecurityConfig {
                         .build())
                 .clientSettings(ClientSettings.builder()
                         .requireAuthorizationConsent(true)
+                        .requireProofKey(true)
                         .build())
                 .build();
 
