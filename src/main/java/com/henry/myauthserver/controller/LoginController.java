@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class LoginController {
 
-    @Value("${frontend.url:http://localhost:3000}")
-    private String frontendUrl;
+    @Value("${oauth2.redirect-uri:http://localhost:3000}")
+    private String redirectUri;
 
     @GetMapping("/login")
     public String login() {
@@ -17,6 +17,6 @@ public class LoginController {
 
     @GetMapping("/home")
     public String home() {
-        return "redirect:" + frontendUrl; // Redirect to frontend application
+        return "redirect:" + redirectUri; // Redirect to frontend application
     }
 }
