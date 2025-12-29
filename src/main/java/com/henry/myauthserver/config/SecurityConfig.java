@@ -50,6 +50,9 @@ public class SecurityConfig {
     @Value("${oauth2.post-logout-redirect-uri:http://localhost:3000}")
     private String postLogoutRedirectUri;
 
+    @Value("${oauth2.client-id:client}")
+    private String clientId;
+
     @Bean
     @Order(1)
     public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -98,7 +101,7 @@ public class SecurityConfig {
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("client")
+                .clientId(clientId)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
