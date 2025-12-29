@@ -166,6 +166,9 @@ For production deployment:
 - `DATABASE_URL`: Database connection URL
 - `DATABASE_USERNAME`: Database username
 - `DATABASE_PASSWORD`: Database password
+- `CORS_ALLOWED_ORIGINS`: Comma-separated list of allowed CORS origins (default: `http://localhost:3000`)
+- `OAUTH2_REDIRECT_URI`: OAuth2 redirect URI for authorization code flow (default: `http://localhost:3000`)
+- `OAUTH2_POST_LOGOUT_REDIRECT_URI`: OAuth2 post-logout redirect URI (default: `http://localhost:3000`)
 
 ## 🐳 Docker Configuration
 

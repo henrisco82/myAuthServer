@@ -7,6 +7,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -43,6 +44,12 @@ import java.util.UUID;
 @Configuration
 public class SecurityConfig {
 
+    @Value("${oauth2.redirect-uri:http://localhost:3000}")
+    private String redirectUri;
+
+    @Value("${oauth2.post-logout-redirect-uri:http://localhost:3000}")
+    private String postLogoutRedirectUri;
+
     @Bean
     @Order(1)
     public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -52,7 +59,10 @@ public class SecurityConfig {
         http
                 .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
                 .with(authorizationServerConfigurer, authServer ->
-                        authServer.oidc(Customizer.withDefaults())
+                    authServer
+                        .oidc(oidc -> oidc
+                                .logoutEndpoint(Customizer.withDefaults())
+                        )
                 )
                 .authorizeHttpRequests(authorize ->
                         authorize.anyRequest().authenticated()
@@ -92,7 +102,8 @@ public class SecurityConfig {
                 .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri("http://localhost:5173/authorized")
+                .redirectUri(redirectUri)
+                .postLogoutRedirectUri(postLogoutRedirectUri)
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .scope("read")
