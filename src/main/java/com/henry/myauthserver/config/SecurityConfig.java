@@ -92,7 +92,14 @@ public class SecurityConfig {
                         .ignoringRequestMatchers("/api/auth/**", "/h2-console/**")
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-                .formLogin(Customizer.withDefaults())
+                .formLogin(form -> form
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/home", true)
+                    .failureUrl("/login?error=true")
+                )
+                .logout(logout -> logout
+                    .logoutSuccessUrl("/login?logout=true")
+                )
                 .cors(Customizer.withDefaults());
 
         return http.build();

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - AuthServer</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo">
+                    <div class="logo-icon">🔐</div>
+                </div>
+                <h1>Welcome Back</h1>
+                <p>Please sign in to your account</p>
+            </div>
+
+            <div class="login-form">
+                <div th:if="${param.error}" class="alert alert-error">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-content">
+                        <strong>Invalid credentials</strong>
+                        <p>Please check your username and password and try again.</p>
+                    </div>
+                </div>
+
+                <div th:if="${param.logout}" class="alert alert-success">
+                    <div class="alert-icon">✅</div>
+                    <div class="alert-content">
+                        <strong>You have been logged out successfully</strong>
+                    </div>
+                </div>
+
+                <form th:action="@{/login}" method="post">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <div class="input-wrapper">
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                required
+                                autofocus
+                                placeholder="Enter your username"
+                                th:value="${param.username}"
+                            >
+                            <div class="input-icon">👤</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                required
+                                placeholder="Enter your password"
+                            >
+                            <div class="input-icon">🔒</div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-text">Sign In</span>
+                            <div class="btn-loader" style="display: none;">
+                                <div class="spinner"></div>
+                            </div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="login-footer">
+                <p>Don't have an account? <a th:href="@{/api/auth/register}" class="register-link">Register here</a></p>
+            </div>
+        </div>
+
+        <div class="login-bg">
+            <div class="bg-pattern">
+                <div class="floating-shapes">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                    <div class="shape shape-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/login.js}"></script>
+</body>
+</html>

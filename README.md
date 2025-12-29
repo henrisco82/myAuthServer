@@ -6,6 +6,7 @@ A comprehensive OAuth2 Authorization Server built with Spring Boot, providing se
 
 - **OAuth2 Authorization Server** with OpenID Connect (OIDC) support
 - **User Registration** API endpoint
+- **Custom Login Page** with modern UI design
 - **JWT Token Management** with RSA encryption
 - **Secure Password Encoding** using BCrypt
 - **CORS Configuration** for cross-origin requests
