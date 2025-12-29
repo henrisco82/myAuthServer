@@ -55,11 +55,20 @@ The server will start on `http://localhost:9000`
 
 ### Deploy to Render
 
-1. Connect your GitHub repository to Render
-2. Create a new Web Service
-3. Select "Docker" as the runtime
-4. Set the port to `9000`
-5. Deploy!
+1. **Create a PostgreSQL Database:**
+   - In Render dashboard, create a new PostgreSQL database
+   - Name it `myauthserver-db` (or update `render.yaml` accordingly)
+   - Choose your plan (Starter is fine for development)
+
+2. **Create the Web Service:**
+   - Connect your GitHub repository to Render
+   - Create a new Web Service
+   - Select "Docker" as the runtime
+   - Set the port to `9000`
+   - The database connection will be automatically configured via `render.yaml`
+
+3. **Deploy!**
+   - Render will automatically link the database and set environment variables
 
 ## 📖 API Documentation
 
@@ -112,15 +121,27 @@ The server provides standard OAuth2 endpoints:
 ## 🗄️ Database Configuration
 
 ### Development (H2)
-The application uses H2 database by default:
+The application uses H2 database by default for local development:
 - **URL:** `jdbc:h2:file:./data/authdb`
 - **Console:** Available at `http://localhost:9000/h2-console`
 - **Username:** `sa`
 - **Password:** *(empty)*
 
-### Production Setup
-For production deployment, configure environment variables:
+**Note:** H2 is for development only. Data is stored in a local file and will be lost on application restarts.
 
+### Production (PostgreSQL)
+For production deployment, the application automatically switches to PostgreSQL when `SPRING_PROFILES_ACTIVE=production`:
+
+- **Database:** PostgreSQL (managed by Render)
+- **Configuration:** Via `application-production.yml`
+- **Connection:** Automatically configured through Render environment variables
+
+**Database Setup on Render:**
+1. Create a PostgreSQL database in Render
+2. Name it `myauthserver-db` (matches `render.yaml`)
+3. The connection details are automatically injected as environment variables
+
+**Manual Configuration** (if not using Render):
 ```yaml
 spring:
   datasource:
