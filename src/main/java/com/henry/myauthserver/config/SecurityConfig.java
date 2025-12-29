@@ -94,7 +94,6 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .formLogin(form -> form
                     .loginPage("/login")
-                    .defaultSuccessUrl(redirectUri, true)
                     .failureUrl("/login?error=true")
                 )
                 .logout(logout -> logout
