@@ -192,6 +192,7 @@ For production deployment:
 - `OAUTH2_REDIRECT_URI`: OAuth2 redirect URI for authorization code flow (default: `http://localhost:3000`)
 - `OAUTH2_POST_LOGOUT_REDIRECT_URI`: OAuth2 post-logout redirect URI (default: `http://localhost:3000`)
 - `OAUTH2_CLIENT_ID`: OAuth2 client identifier (default: `client`)
+- `FRONTEND_URL`: Frontend application URL for post-login redirects (default: `http://localhost:3000`)
 
 ## 🐳 Docker Configuration
 

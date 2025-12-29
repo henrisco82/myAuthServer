@@ -53,6 +53,9 @@ public class SecurityConfig {
     @Value("${oauth2.client-id:client}")
     private String clientId;
 
+    @Value("${frontend.url:http://localhost:3000}")
+    private String frontendUrl;
+
     @Bean
     @Order(1)
     public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -94,7 +97,7 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .formLogin(form -> form
                     .loginPage("/login")
-                    .defaultSuccessUrl("/home", true)
+                    .defaultSuccessUrl(frontendUrl, true)
                     .failureUrl("/login?error=true")
                 )
                 .logout(logout -> logout
