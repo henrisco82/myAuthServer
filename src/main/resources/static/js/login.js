@@ -11,8 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.classList.add('loading');
             btnText.textContent = 'Signing In...';
 
-            // Disable form elements during submission
-            const inputs = loginForm.querySelectorAll('input');
+            // Don't disable the actual form inputs - they need to be submitted
+            // Only disable non-essential inputs like hidden fields
+            const inputs = loginForm.querySelectorAll('input[type="hidden"]');
             inputs.forEach(input => input.disabled = true);
         });
     }
