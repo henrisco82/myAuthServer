@@ -85,11 +85,11 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers("/api/auth/**", "/h2-console/**").permitAll()
+                                .requestMatchers("/login", "/home", "/css/**", "/js/**", "/api/auth/**", "/h2-console/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/auth/**", "/h2-console/**")
+                        .ignoringRequestMatchers("/login", "/api/auth/**", "/h2-console/**")
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .formLogin(form -> form
