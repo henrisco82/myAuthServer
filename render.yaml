@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: myauthserver
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    port: 9000
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
