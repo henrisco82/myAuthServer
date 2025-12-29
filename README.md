@@ -221,11 +221,29 @@ The `.dockerignore` file excludes:
 
 ## 🧪 Testing
 
-Run the test suite:
+Run the comprehensive test suite:
 
 ```bash
 ./gradlew test
 ```
+
+### Test Coverage
+
+The project includes comprehensive unit tests covering:
+
+- **AuthController**: Registration endpoint with success/error scenarios
+- **LoginController**: Login and home page endpoints
+- **UserService**: User registration business logic
+- **DTOs**: Input validation and data transfer objects
+
+**Test Results**: ✅ All tests pass successfully
+
+### Test Categories
+
+- **Happy Path Tests**: Normal operation scenarios
+- **Error Handling**: Duplicate users, validation errors
+- **Edge Cases**: Invalid inputs, null values
+- **Integration Points**: Controller responses and service logic
 
 ## 📁 Project Structure
 
