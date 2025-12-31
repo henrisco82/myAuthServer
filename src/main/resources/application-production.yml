@@ -4,9 +4,7 @@ server:
 spring:
   application:
     name: auth-server
-  datasource:
-    url: jdbc:${DATABASE_URL}
-    driver-class-name: org.postgresql.Driver
+  # datasource configured in DatabaseConfig.java to handle special characters in password
   jpa:
     hibernate:
       ddl-auto: update
