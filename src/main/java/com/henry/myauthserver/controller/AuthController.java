@@ -5,11 +5,13 @@ import com.henry.myauthserver.dto.RegistrationResponse;
 import com.henry.myauthserver.entity.AppUser;
 import com.henry.myauthserver.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Map;
 
 @Controller
@@ -17,9 +19,11 @@ import java.util.Map;
 public class AuthController {
 
     private final UserService userService;
+    private final Environment environment;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, Environment environment) {
         this.userService = userService;
+        this.environment = environment;
     }
 
     @PostMapping("/register")
@@ -44,7 +48,7 @@ public class AuthController {
             return ResponseEntity.ok(Map.of(
                 "userCount", userCount,
                 "database", "connected",
-                "profile", System.getProperty("spring.profiles.active", "default")
+                "profile", Arrays.toString(environment.getActiveProfiles())
             ));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
