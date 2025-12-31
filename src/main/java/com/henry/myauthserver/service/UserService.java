@@ -45,3 +45,5 @@ public class UserService {
         return userRepository.count();
     }
 }
+
+jdbc:postgresql://myauthserver_db_user:JLXNfztyd9q8lH524bhtT00gL8VT8guT@dpg-d59cjs3uibrs73b7rimg-a/myauthserver_db
