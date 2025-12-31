@@ -7,9 +7,12 @@ import com.henry.myauthserver.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.Map;
+
+@Controller
 @RequestMapping("/api/auth")
 public class AuthController {
 
@@ -30,6 +33,22 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+        }
+    }
+
+    @GetMapping("/db-info")
+    public ResponseEntity<?> getDatabaseInfo() {
+        try {
+            // This will help debug what database we're actually connecting to
+            long userCount = userService.getUserCount();
+            return ResponseEntity.ok(Map.of(
+                "userCount", userCount,
+                "database", "connected",
+                "profile", System.getProperty("spring.profiles.active", "default")
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Database connection failed: " + e.getMessage()));
         }
     }
 

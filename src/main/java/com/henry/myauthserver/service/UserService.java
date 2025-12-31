@@ -40,4 +40,8 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+    public long getUserCount() {
+        return userRepository.count();
+    }
 }
